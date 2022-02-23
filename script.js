@@ -7,3 +7,9 @@
  * 4. Add Previous/Next, First/Last and get Comic by ID functionality to the app
  * 5. Adjust UI states accordingly
  */
+
+class RequestController {
+  constructor() {}
+}
+
+const comics = new RequestController();
