@@ -39,7 +39,6 @@ class RequestController {
 
   getCurrentCommics() {
     const requestUrl = `${this.corsHeader}/${this.apiUrl}/${this.apiUrlFormat}`;
-
     this.superagent.get(requestUrl).end((error, response) => {
       if (error) {
         return this.DomInterface.showError(error);
@@ -52,6 +51,9 @@ class RequestController {
   }
 
   getComicsByNumber(number) {
+    this.DomInterface.hideErrors();
+    this.DomInterface.showLoader();
+    this.DomInterface.clearResults();
     const requestUrl = `${this.corsHeader}/${this.apiUrl}/${number}/${this.apiUrlFormat}`;
 
     this.superagent.get(requestUrl).end((error, response) => {
