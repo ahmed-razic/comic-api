@@ -66,17 +66,27 @@ class RequestController {
 
   requestPreviousComics() {
     const requestedComicsNumber = this.currentComicsNumber - 1;
-    console.log(requestedComicsNumber);
 
-    if (requestedComicsNumber < 1) return;
+    if (requestedComicsNumber < 1) return this.DomInterface.showError();
     this.getComicsByNumber(requestedComicsNumber);
   }
 
   requestNextComics() {
     const requestedComicsNumber = this.currentComicsNumber + 1;
 
-    if (requestedComicsNumber > this.maxComicsNumber) return;
+    if (requestedComicsNumber > this.maxComicsNumber) return this.DomInterface.showError();
     this.getComicsByNumber(requestedComicsNumber);
+  }
+
+  requestComicsById(e) {
+    e.preventDefault();
+
+    const query = this.DomInterface.searchField.value;
+    if (!query || query === '') return this.DomInterface.showError();
+    if (query < 1 || query > this.maxComicsNumber)
+      return this.DomInterface.showFormError(`Please enter a number between 1 and ${this.maxComicsNumber}`);
+
+    this.getComicsByNumber(query);
   }
 
   registerEvents() {
@@ -93,6 +103,10 @@ class RequestController {
 
     this.DomInterface.controls.previous.addEventListener('click', () => this.requestPreviousComics());
     this.DomInterface.controls.next.addEventListener('click', () => this.requestNextComics());
+
+    this.DomInterface.form.addEventListener('submit', e => {
+      this.requestComicsById(e);
+    });
   }
 }
 
